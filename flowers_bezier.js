@@ -161,6 +161,8 @@ function draw() {
 
   let x = 0;
   let y = 0;
+  fill(0)
+  text(String("Angle of rotation: " + Number((turns *180).toFixed(7)) ), 20,780);
 
   // Set colors
   fill(r,g,b,a);
