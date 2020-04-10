@@ -6,14 +6,17 @@ let pts = [];
 function setup() {
   createCanvas(1000, 800);
 
-  // LEFT BUFFER
   pts = [
     createVector(50, 200),
     createVector(100, 300),
     createVector(300, 300),
     createVector(350, 200)
   ];
+
+  //ori = createVector(50,200);
+
   checkbox = createCheckbox('Mirror bezier control points', false);
+  checkbox_stroke = createCheckbox('No fill/stroke only', false);
 
   // RIGHT BUFFER
   let slider_widths = "200px";
@@ -73,6 +76,18 @@ function draw() {
   stroke(0);
   strokeWeight(1);
 
+  let n_petals = petal_slider.value();
+  let turns = turns_slider.value();
+  let petalX = petalX_slider.value();
+  let petalY = petalY_slider.value();
+  let scale = scale_slider.value();
+  // let originOfRotationX = oriX_slider.value(); // need to change origin of rotation via "translate"
+  // let originOfRotationY = oriY_slider.value(); // need to change origin of rotation via "translate"
+  let r = r_slider.value()
+  let g = g_slider.value()
+  let b = b_slider.value()
+  let a  = a_slider.value()
+
   function myBez(pts = pts) {
     beginShape();
     vertex(pts[0].x, pts[0].y);
@@ -108,12 +123,13 @@ function draw() {
   //        pts[3].x, pts[3].y);
 
 
-  noStroke(0);
-  fill(255);
+  noStroke();
   for (let pt of pts) {
     fill("red");
     ellipse(pt.x, pt.y, 20, 20);
   }
+  fill(255, 204, 100)
+  ellipse(pts[0].x + petalX, pts[0].y + petalY, 20, 20);
 
   if (checkbox.checked()) {
     for (let pt of pts_mirror) {
@@ -125,12 +141,23 @@ function draw() {
   if (mouseIsPressed) {
     for (let pt of pts) {
       if (dist(mouseX, mouseY, pt.x, pt.y) < 20) {
-        pt.x = mouseX;
-        pt.y = mouseY;
-        break;
+          pt.x = mouseX;
+          pt.y = mouseY;
+          break;
+        }
       }
     }
-  }
+    // same for origin of rotation
+    // if ((dist(mouseX, mouseY, ori.x, ori.y) < 20)) {
+    //     ori.x = mouseX;
+    //     ori.y = mouseY;
+    //   }
+
+        // if (dist(pt.x, pt.y, ori.x, ori.y) < 20) {
+        //   pt.x = pt.x
+        //   pt.y = pt.y
+        // } else   
+
   push()
   noStroke(0)
   fill(0)
@@ -147,28 +174,22 @@ function draw() {
   // text('Origin of Rotation Y', oriY_slider.x  + oriY_slider.width, oriY_slider.y);
   pop()
 
-  let n_petals = petal_slider.value();
-  let turns = turns_slider.value();
-  let petalX = petalX_slider.value();
-  let petalY = petalY_slider.value();
-  let scale = scale_slider.value();
-  // let originOfRotationX = oriX_slider.value(); // need to change origin of rotation via "translate"
-  // let originOfRotationY = oriY_slider.value(); // need to change origin of rotation via "translate"
-  let r = r_slider.value()
-  let g = g_slider.value()
-  let b = b_slider.value()
-  let a  = a_slider.value()
-
   let x = 0;
   let y = 0;
   fill(0)
   text(String("Angle of rotation: " + Number((turns *180).toFixed(7)) ), 20,780);
 
   // Set colors
-  fill(r,g,b,a);
+  if (checkbox_stroke.checked()) {
+    noFill();
+    stroke(0)
+  } else {
+    fill(r,g,b,a);
+  }
 
+  // (ori.x-pts[0].x)
   let new_pts = [
-    createVector(petalX + 0 * scale,petalY + 0 *scale),
+    createVector(petalX + 0 * scale, petalY + 0 *scale),
     createVector((petalX + pts[1].x - pts[0].x) * scale, (petalY + pts[1].y - pts[0].y) * scale),
     createVector((petalX + pts[2].x - pts[0].x) * scale, (petalY + pts[2].y - pts[0].y) * scale),
     createVector((petalX + pts[3].x - pts[0].x) * scale, (petalY + pts[3].y - pts[0].y) * scale)
