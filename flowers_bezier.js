@@ -189,7 +189,7 @@ function draw() {
 
   // (ori.x-pts[0].x)
   let new_pts = [
-    createVector(petalX + 0 * scale, petalY + 0 *scale),
+    createVector((petalX + 0) * scale, (petalY + 0) *scale),
     createVector((petalX + pts[1].x - pts[0].x) * scale, (petalY + pts[1].y - pts[0].y) * scale),
     createVector((petalX + pts[2].x - pts[0].x) * scale, (petalY + pts[2].y - pts[0].y) * scale),
     createVector((petalX + pts[3].x - pts[0].x) * scale, (petalY + pts[3].y - pts[0].y) * scale)
